@@ -1,10 +1,10 @@
 <?php
 
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 try {
-    (new Dotenv\Dotenv(__DIR__.'/../'))->load();
-} catch (Dotenv\Exception\InvalidPathException $e) {
+    ( new Dotenv\Dotenv( __DIR__ . '/../' ) )->load();
+} catch ( Dotenv\Exception\InvalidPathException $e ) {
     //
 }
 
@@ -20,7 +20,7 @@ try {
 */
 
 $app = new Laravel\Lumen\Application(
-    realpath(__DIR__.'/../')
+    realpath( __DIR__ . '/../' )
 );
 
 // $app->withFacades();
@@ -93,8 +93,17 @@ $app->singleton(
 |
 */
 
-$app->group(['namespace' => 'App\Http\Controllers'], function ($app) {
-    require __DIR__.'/../routes/web.php';
-});
+$app->group( [ 'namespace' => 'App\Http\Controllers' ], function ( $app ) {
+    require __DIR__ . '/../routes/web.php';
+} );
+
+
+/**
+ * Register custom service providers
+ */
+// barryvdh/laravel-ide-helper
+if ( $app->environment() != 'production' ) {
+    $app->register( \Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class );
+}
 
 return $app;
