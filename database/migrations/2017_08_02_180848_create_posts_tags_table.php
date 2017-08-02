@@ -11,9 +11,14 @@ class CreatePostsTagsTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up ()
     {
-        //
+        Schema::create( 'posts_tags', function ( Blueprint $table ) {
+            $table->integer( 'post_id' );
+            $table->foreign( 'post_id' )->references( 'id' )->on( 'posts' );
+            $table->integer( 'tag_id' );
+            $table->foreign( 'tag_id' )->references( 'id' )->on( 'tags' );
+        } );
     }
 
     /**
@@ -21,8 +26,8 @@ class CreatePostsTagsTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down ()
     {
-        //
+        Schema::drop( 'posts_tags' );
     }
 }
