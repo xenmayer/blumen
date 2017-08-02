@@ -11,9 +11,17 @@ class CreatePostsTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up ()
     {
-        //
+        Schema::create( 'posts', function ( Blueprint $table ) {
+            $table->increments( 'id' );
+            $table->string( 'name', 250 );
+            $table->text( 'content' )->nullable();
+            $table->integer( 'category_id' );
+            $table->foreign( 'category_id' )->references( 'id' )->on( 'categories' );
+            $table->timestamps();
+            $table->timestamp( 'deleted_at' )->nullable();
+        } );
     }
 
     /**
@@ -21,8 +29,8 @@ class CreatePostsTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down ()
     {
-        //
+        Schema::drop( 'posts' );
     }
 }
